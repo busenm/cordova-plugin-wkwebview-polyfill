@@ -2,7 +2,7 @@
 //  CDVCryptURLProtocol.m
 //  CordovaLib
 //
-//  Created by tkyaji on 2015/07/15.
+//  Created by busenm on 2015/07/15.
 //
 //
 
@@ -61,17 +61,17 @@ static NSString* const kExcludeFiles[] = { };
     NSString *wwwPath = [[NSBundle mainBundle].resourcePath stringByAppendingString:@"/www/"];
     NSString *checkPath = [url.path stringByReplacingOccurrencesOfString:wwwPath withString:@""];
     
-    if (![self hasMatch:checkPath regexArr:kIncludeFiles length:kIncludeFileLength]) {
+    if (![self HM:checkPath regexArr:kIncludeFiles length:kIncludeFileLength]) {
         return NO;
     }
-    if ([self hasMatch:checkPath regexArr:kExcludeFiles length:kExcludeFileLength]) {
+    if ([self HM:checkPath regexArr:kExcludeFiles length:kExcludeFileLength]) {
         return NO;
     }
 
     return YES;
 }
 
-+ (BOOL)hasMatch:(NSString *)text regexArr:(NSString* const [])regexArr length:(int)length {
++ (BOOL)HM:(NSString *)text regexArr:(NSString* const [])regexArr length:(int)length {
     for (int i = 0; i < length; i++) {
         NSString* const regex = regexArr[i];
         if ([self isMatch:text pattern:regex]) {

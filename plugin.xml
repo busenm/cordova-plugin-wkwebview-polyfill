@@ -5,7 +5,7 @@
 
     <name>CordovaCrypt</name>
     <description>Plugin Description</description>
-    <author>@tkyaji</author>
+    <author>@busenm</author>
     <license>Apache 2.0 License</license>
 
     <platform name="ios">
@@ -24,13 +24,13 @@
 
     <platform name="android">
         <config-file target="config.xml" parent="/*">
-            <feature name="DecryptResource">
-                <param name="android-package" value="com.tkyaji.cordova.DecryptResource" />
+            <feature name="DR">
+                <param name="android-package" value="com.busenm.cordova.DR" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 		
-        <source-file src="src/android/com/tkyaji/cordova/DecryptResource.java" target-dir="src/com/tkyaji/cordova" />
+        <source-file src="src/android/com/busenm/cordova/DR.java" target-dir="src/com/busenm/cordova" />
     </platform>
 
     <cryptfiles>

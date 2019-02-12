@@ -1,4 +1,4 @@
-package com.tkyaji.cordova;
+package com.busenm.cordova;
 
 import android.net.Uri;
 import android.util.Base64;
@@ -20,14 +20,14 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 
-public class DecryptResource extends CordovaPlugin {
+public class DR extends CordovaPlugin {
 
-    private static final String TAG = "DecryptResource";
+    private static final String TAG = "DR";
 
-    private static final String CRYPT_KEY = "";
-    private static final String CRYPT_IV = "";
-    private static final String[] INCLUDE_FILES = new String[] { };
-    private static final String[] EXCLUDE_FILES = new String[] { };
+    private static final String CK = "";
+    private static final String CIV = "";
+    private static final String[] IF = new String[] { };
+    private static final String[] EF = new String[] { };
 
     @Override
     public Uri remapUri(Uri uri) {
@@ -45,7 +45,7 @@ public class DecryptResource extends CordovaPlugin {
 
         CordovaResourceApi.OpenForReadResult readResult =  this.webView.getResourceApi().openForRead(Uri.parse(uriStr), true);
 
-        if (!isCryptFiles(uriStr)) {
+        if (!ICF(uriStr)) {
             return readResult;
         }
 
@@ -62,9 +62,9 @@ public class DecryptResource extends CordovaPlugin {
         LOG.d(TAG, "decrypt: " + uriStr);
         ByteArrayInputStream byteInputStream = null;
         try {
-            SecretKey skey = new SecretKeySpec(CRYPT_KEY.getBytes("UTF-8"), "AES");
+            SecretKey skey = new SecretKeySpec(CK.getBytes("UTF-8"), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CRYPT_IV.getBytes("UTF-8")));
+            cipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CIV.getBytes("UTF-8")));
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bos.write(cipher.doFinal(bytes));
@@ -78,18 +78,18 @@ public class DecryptResource extends CordovaPlugin {
                 readResult.uri, byteInputStream, readResult.mimeType, readResult.length, readResult.assetFd);
     }
 
-    private boolean isCryptFiles(String uri) {
+    private boolean ICF(String uri) {
         String checkPath = uri.replace("file:///android_asset/www/", "");
-        if (!this.hasMatch(checkPath, INCLUDE_FILES)) {
+        if (!this.HM(checkPath, IF)) {
             return false;
         }
-        if (this.hasMatch(checkPath, EXCLUDE_FILES)) {
+        if (this.HM(checkPath, EF)) {
             return false;
         }
         return true;
     }
 
-    private boolean hasMatch(String text, String[] regexArr) {
+    private boolean HM(String text, String[] regexArr) {
         for (String regex : regexArr) {
             if (Pattern.compile(regex).matcher(text).find()) {
                 return true;

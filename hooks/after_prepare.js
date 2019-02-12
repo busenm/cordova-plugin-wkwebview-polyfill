@@ -153,16 +153,16 @@ module.exports = function(context) {
     }
 
     function replaceCryptKey_android(pluginDir, key, iv) {
-        var sourceFile = path.join(pluginDir, 'com/tkyaji/cordova/DecryptResource.java');
+        var sourceFile = path.join(pluginDir, 'com/busenm/cordova/DR.java');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
         var includeArrStr = targetFiles.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
         var excludeArrStr = targetFiles.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        content = content.replace(/CRYPT_KEY = ".*";/, 'CRYPT_KEY = "' + key + '";')
-                         .replace(/CRYPT_IV = ".*";/, 'CRYPT_IV = "' + iv + '";')
-                         .replace(/INCLUDE_FILES = new String\[\] {.*};/, 'INCLUDE_FILES = new String[] { ' + includeArrStr + ' };')
-                         .replace(/EXCLUDE_FILES = new String\[\] {.*};/, 'EXCLUDE_FILES = new String[] { ' + excludeArrStr + ' };');
+        content = content.replace(/CK = ".*";/, 'CK = "' + key + '";')
+                         .replace(/CIV = ".*";/, 'CIV = "' + iv + '";')
+                         .replace(/IF = new String\[\] {.*};/, 'IF = new String[] { ' + includeArrStr + ' };')
+                         .replace(/EF = new String\[\] {.*};/, 'EF = new String[] { ' + excludeArrStr + ' };');
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }
