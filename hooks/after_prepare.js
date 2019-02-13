@@ -55,7 +55,7 @@ module.exports = function(context) {
             pcd(drl, pys, iv);
 
         } else if (platform == 'android') {
-            var drl = pt.join(pht, 'app/src/main/java');
+            var drl = pt.join(pht, 'src');
             pca(drl, pys, iv);
 
             var cfg = new CPr(tno.projectConfig.path);
