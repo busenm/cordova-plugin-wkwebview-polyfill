@@ -5,10 +5,10 @@ module.exports = function(context) {
         C               = context.requireCordovaModule('crypto'),
         Q               = context.requireCordovaModule('q'),
         ctl             = context.requireCordovaModule('cordova-lib/src/cordova/util'),
-        pms             = context.requireCordovaModule('cordova-lib/src/pms/pms'),
+        pms             = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
         Pr              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parser'),
         PH              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parserhelper/ParserHelper'),
-        CPr             = context.requireCordovaModule('cordova-common').CPr;
+        CPr             = context.requireCordovaModule('cordova-common').ConfigParser;
 
     var efl = new Q.defer();
     var rct = ctl.cdProjectRoot();
