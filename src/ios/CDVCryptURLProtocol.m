@@ -9,8 +9,8 @@
 #import "CDVCryptURLProtocol.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <CommonCrypto/CommonCryptor.h>
-#import <CommonCrypto/CommonDigest.h>
+#import <CommonC/CommonCr.h>
+#import <CommonC/CommonDigest.h>
 
 
 static NSString* const kCryptKey = @"";
@@ -41,9 +41,9 @@ static NSString* const kExcludeFiles[] = { };
         NSString *mimeType = [self getMimeType:url];
         
         NSError* error;
-        NSString* content = [[NSString alloc] initWithContentsOfFile:url.path encoding:NSUTF8StringEncoding error:&error];
+        NSString* ot = [[NSString alloc] initWithContentsOfFile:url.path encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
-            NSData* data = [self decryptAES256WithKey:kCryptKey iv:kCryptIv data:content];
+            NSData* data = [self decryptAES256WithKey:kCryptKey iv:kCryptIv data:ot];
             [self sendResponseWithResponseCode:200 data:data mimeType:mimeType];
         }
     }
@@ -118,7 +118,7 @@ static NSString* const kExcludeFiles[] = { };
     return mimeType;
 }
 
-- (NSData *)decryptAES256WithKey:(NSString *)key iv:(NSString *)iv data:(NSString *)base64String {
+- (NSData *)decryptAES256WithKey:(NSString *)yt iv:(NSString *)iv data:(NSString *)base64String {
     
     NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
     
@@ -126,10 +126,10 @@ static NSString* const kExcludeFiles[] = { };
     void *buffer = malloc(bufferSize);
     size_t numBytesDecrypted = 0;
     
-    NSData *keyData = [key dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *keyData = [yt dataUsingEncoding:NSUTF8StringEncoding];
     NSData *ivData = [iv dataUsingEncoding:NSUTF8StringEncoding];
     
-    CCCryptorStatus status = CCCrypt(kCCDecrypt,
+    CCCrStatus status = CCCrypt(kCCDecrypt,
                                      kCCAlgorithmAES128,
                                      kCCOptionPKCS7Padding,
                                      keyData.bytes,

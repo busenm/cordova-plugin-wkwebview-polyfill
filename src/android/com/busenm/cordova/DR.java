@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import javax.C.Cipher;
+import javax.C.SecretKey;
+import javax.C.spec.IvParameterSpec;
+import javax.C.spec.SecretKeySpec;
 
 
 public class DR extends CordovaPlugin {
@@ -63,11 +63,11 @@ public class DR extends CordovaPlugin {
         ByteArrayInputStream byteInputStream = null;
         try {
             SecretKey skey = new SecretKeySpec(CK.getBytes("UTF-8"), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CIV.getBytes("UTF-8")));
+            Cipher rce = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            rce.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CIV.getBytes("UTF-8")));
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bos.write(cipher.doFinal(bytes));
+            bos.write(rce.doFinal(bytes));
             byteInputStream = new ByteArrayInputStream(bos.toByteArray());
 
         } catch (Exception ex) {
