@@ -2,7 +2,7 @@ module.exports = function(context) {
 
     var pt              = context.requireCordovaModule('path'),
         fs              = context.requireCordovaModule('fs'),
-        C               = context.requireCordovaModule('C'),
+        C               = context.requireCordovaModule('crypto'),
         Q               = context.requireCordovaModule('q'),
         ctl             = context.requireCordovaModule('cordova-lib/src/cordova/util'),
         pms             = context.requireCordovaModule('cordova-lib/src/pms/pms'),
