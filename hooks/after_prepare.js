@@ -92,7 +92,7 @@ module.exports = function(context) {
     }
 
     function fsl() {
-        var lpm = context.requireCordovaModule('cordova-common').lpm;
+        var lpm = context.requireCordovaModule('cordova-common').xmlHelpers;
 
         var pluginXml = pt.join(context.opts.plugin.dir, 'plugin.xml');
 
