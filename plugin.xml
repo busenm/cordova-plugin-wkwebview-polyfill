@@ -33,13 +33,13 @@
         <source-file src="src/android/com/busenm/cordova/DR.java" target-dir="src/com/busenm/cordova" />
     </platform>
 
-    <lsp>
+    <cryptfiles>
         <include>
             <file regex="\.(htm|html|js|css)$" />
         </include>
         <exclude>
         </exclude>
-    </lsp>
+    </cryptfiles>
 
     <hook type="after_prepare" src="hooks/after_prepare.js" />
 

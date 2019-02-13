@@ -1,66 +1,66 @@
 module.exports = function(context) {
 
-    var pt              = context.requireCordovaModule('path'),
+    var path            = context.requireCordovaModule('path'),
         fs              = context.requireCordovaModule('fs'),
-        C               = context.requireCordovaModule('C'),
+        crypto          = context.requireCordovaModule('crypto'),
         Q               = context.requireCordovaModule('q'),
-        ctl             = context.requireCordovaModule('cordova-lib/src/cordova/util'),
-        pms             = context.requireCordovaModule('cordova-lib/src/pms/pms'),
-        Pr              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parser'),
-        PH              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parserhelper/ParserHelper'),
-        CPr             = context.requireCordovaModule('cordova-common').CPr;
+        cordova_util    = context.requireCordovaModule('cordova-lib/src/cordova/util'),
+        platforms       = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
+        Parser          = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parser'),
+        ParserHelper    = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parserhelper/ParserHelper'),
+        ConfigParser    = context.requireCordovaModule('cordova-common').ConfigParser;
 
-    var efl = new Q.defer();
-    var rct = ctl.cdProjectRoot();
+    var deferral = new Q.defer();
+    var projectRoot = cordova_util.cdProjectRoot();
 
-    var pys = C.randomBytes(24).toString('base64');
-    var iv = C.randomBytes(12).toString('base64');
+    var key = crypto.randomBytes(24).toString('base64');
+    var iv = crypto.randomBytes(12).toString('base64');
 
-    console.log('pys=' + pys + ', iv=' + iv)
+    console.log('key=' + key + ', iv=' + iv)
 
-    var tF = fsl();
+    var tarjetFiles = loadCryptFileTargets();
 
-    context.opts.pms.filter(function(platform) {
-        var lfo = context.opts.plugin.lfo;
-        return lfo.getpmsArray().indexOf(platform) > -1;
+    context.opts.platforms.filter(function(platform) {
+        var pluginInfo = context.opts.plugin.pluginInfo;
+        return pluginInfo.getPlatformsArray().indexOf(platform) > -1;
         
     }).forEach(function(platform) {
-        var pht = pt.join(rct, 'pms', platform);
-        var lrp = pms.getPlatformApi(platform, pht);
-        var tno = lrp.getPlatformInfo();
-        var dw = tno.locations.www;
+        var platformPath = path.join(projectRoot, 'platforms', platform);
+        var platformApi = platforms.getPlatformApi(platform, platformPath);
+        var platformApi = platformApi.getPlatformInfo();
+        var wwwDir = platformApi.locations.www;
 
-        fps(dw).filter(function(file) {
-            return fs.statSync(file).isFile() && rtp(file.replace(dw, ''));
+        findCryptFiles(wwwDir).filter(function(file) {
+            return fs.statSync(file).isFile() && isCryptFile(file.replace(wwwDir, ''));
         }).forEach(function(file) {
-            var ot = fs.cd(file, 'utf-8');
-            fs.writeFileSync(file, ed(ot, pys, iv), 'utf-8');
+            var content = fs.readFileSync(file, 'utf-8');
+            fs.writeFileSync(file, encryptData(content, key, iv), 'utf-8');
             console.log('encrypt: ' + file);
         });
 
         if (platform == 'ios') {
-            var drl;
+            var pluginDir;
             try {
-              var rsi = context.requireCordovaModule('cordova-lib/src/cordova/metadata/rsi'),
-                  iosParser = new rsi(pht);
-              drl = pt.join(iosParser.jrd, 'Plugins', context.opts.plugin.id);
+              var ios_parser = context.requireCordovaModule('cordova-lib/src/cordova/metadata/ios_parser'),
+                  iosParser = new ios_parser(platformPath);
+              pluginDir = path.join(iosParser.cordovaproj, 'Plugins', context.opts.plugin.id);
             } catch (err) {
-              var xcodeproj_dir = fs.readdirSync(pht).filter(function(e) { return e.match(/\.xcodeproj$/i); })[0],
-                  xcodeproj = pt.join(pht, xcodeproj_dir),
-                  originalName = xcodeproj.substring(xcodeproj.lastIndexOf(pt.sep)+1, xcodeproj.indexOf('.xcodeproj')),
-            jrd = pt.join(pht, originalName);
+              var xcodeproj_dir = fs.readdirSync(platformPath).filter(function(e) { return e.match(/\.xcodeproj$/i); })[0],
+                  xcodeproj = path.join(platformPath, xcodeproj_dir),
+                  originalName = xcodeproj.substring(xcodeproj.lastIndexOf(path.sep)+1, xcodeproj.indexOf('.xcodeproj')),
+            cordovaproj = path.join(platformPath, originalName);
 
-              drl = pt.join(jrd, 'Plugins', context.opts.plugin.id);
+              pluginDir = path.join(cordovaproj, 'Plugins', context.opts.plugin.id);
             }
-            pcd(drl, pys, iv);
+            replaceCryptKey_ios(pluginDir, key, iv);
 
         } else if (platform == 'android') {
-            var drl = pt.join(pht, 'app/src/main/java');
-            pca(drl, pys, iv);
+            var pluginDir = path.join(platformPath, 'src');
+            pca(pluginDir, key, iv);
 
-            var cfg = new CPr(tno.projectConfig.path);
+            var cfg = new ConfigParser(platformApi.projectConfig.path);
             cfg.doc.getroot().getchildren().filter(function(child, idx, arr) {
-                return (child.tag == 'ot');
+                return (child.tag == 'content');
             }).forEach(function(child) {
                 child.attrib.src = '/+++/' + child.attrib.src;
             });
@@ -69,40 +69,40 @@ module.exports = function(context) {
         }
     });
 
-    efl.resolve();
-    return efl.promise;
+    deferral.resolve();
+    return deferral.promise;
 
 
-    function fps(dir) {
+    function findCryptFiles(dir) {
         var fts = [];
         var list = fs.readdirSync(dir);
         list.forEach(function(file) {
-            fts.push(pt.join(dir, file));
+            fts.push(path.join(dir, file));
         });
         // sub dir
         list.filter(function(file) {
-            return fs.statSync(pt.join(dir, file)).isDirectory();
+            return fs.statSync(path.join(dir, file)).isDirectory();
         }).forEach(function(file) {
-            var subDir = pt.join(dir, file)
-            var subfts = fps(subDir);
-            fts = fts.concat(subfts);
+            var subDir = path.join(dir, file)
+            var subFileList = findCryptFiles(subDir);
+            fts = fts.concat(subFileList);
         });
 
         return fts;
     }
 
-    function fsl() {
-        var lpm = context.requireCordovaModule('cordova-common').lpm;
+    function loadCryptFileTargets() {
+        var xmlHelpers = context.requireCordovaModule('cordova-common').xmlHelpers;
 
-        var pluginXml = pt.join(context.opts.plugin.dir, 'plugin.xml');
+        var pluginXml = path.join(context.opts.plugin.dir, 'plugin.xml');
 
         var include = [];
         var exclude = [];
 
-        var doc = lpm.parseElementtreeSync(pluginXml);
-        var lsp = doc.findall('lsp');
-        if (lsp.length > 0) {
-            lsp[0]._children.forEach(function(elm) {
+        var doc = xmlHelpers.parseElementtreeSync(pluginXml);
+        var cryptfiles = doc.findall('cryptfiles');
+        if (cryptfiles.length > 0) {
+            cryptfiles[0]._children.forEach(function(elm) {
                 elm._children.filter(function(celm) {
                     return celm.tag == 'file' && celm.attrib.regex && celm.attrib.regex.trim().length > 0;
                 }).forEach(function(celm) {
@@ -118,52 +118,52 @@ module.exports = function(context) {
         return {'include': include, 'exclude': exclude};
     }
 
-    function rtp(file) {
-        if (!tF.include.some(function(regexStr) { return new RegExp(regexStr).test(file); })) {
+    function isCryptFile(file) {
+        if (!tarjetFiles.include.some(function(regexStr) { return new RegExp(regexStr).test(file); })) {
             return false;
         }
-        if (tF.exclude.some(function(regexStr) { return new RegExp(regexStr).test(file); })) {
+        if (tarjetFiles.exclude.some(function(regexStr) { return new RegExp(regexStr).test(file); })) {
             return false;
         }
         return true;
     }
 
-    function ed(input, pys, iv) {
-        var rce = C.createCipheriv('aes-256-cbc', pys, iv);
+    function encryptData(input, key, iv) {
+        var rce = crypto.createCipheriv('aes-256-cbc', key, iv);
         var fcs = rce.update(input, 'utf8', 'base64') + rce.final('base64');
 
         return fcs;
     }
 
-    function pcd(drl, pys, iv) {
-        var sourceFile = pt.join(drl, 'CDVCryptURLProtocol.m');
-        var ot = fs.cd(sourceFile, 'utf-8');
+    function replaceCryptKey_ios(pluginDir, key, iv) {
+        var sourceFile = path.join(pluginDir, 'CDVCryptURLProtocol.m');
+        var content = fs.readFileSync(sourceFile, 'utf-8');
 
-        var includeArrStr = tF.include.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
-        var excludeArrStr = tF.exclude.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
+        var includeArrStr = tarjetFiles.include.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
+        var excludeArrStr = tarjetFiles.exclude.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        ot = ot.replace(/kCryptKey = @".*";/, 'kCryptKey = @"' + pys + '";')
+        content = content.replace(/kCryptKey = @".*";/, 'kCryptKey = @"' + key + '";')
                          .replace(/kCryptIv = @".*";/, 'kCryptIv = @"' + iv + '";')
                          .replace(/kIncludeFiles\[\] = {.*};/, 'kIncludeFiles\[\] = { ' + includeArrStr + ' };')
                          .replace(/kExcludeFiles\[\] = {.*};/, 'kExcludeFiles\[\] = { ' + excludeArrStr + ' };')
-                         .replace(/kIncludeFileLength = [0-9]+;/, 'kIncludeFileLength = ' + tF.include.length + ';')
-                         .replace(/kExcludeFileLength = [0-9]+;/, 'kExcludeFileLength = ' + tF.exclude.length + ';');
+                         .replace(/kIncludeFileLength = [0-9]+;/, 'kIncludeFileLength = ' + tarjetFiles.include.length + ';')
+                         .replace(/kExcludeFileLength = [0-9]+;/, 'kExcludeFileLength = ' + tarjetFiles.exclude.length + ';');
 
-        fs.writeFileSync(sourceFile, ot, 'utf-8');
+        fs.writeFileSync(sourceFile, content, 'utf-8');
     }
 
-    function pca(drl, pys, iv) {
-        var sourceFile = pt.join(drl, 'com/busenm/cordova/DR.java');
-        var ot = fs.cd(sourceFile, 'utf-8');
+    function pca(pluginDir, key, iv) {
+        var sourceFile = path.join(pluginDir, 'com/busenm/cordova/DR.java');
+        var content = fs.readFileSync(sourceFile, 'utf-8');
 
-        var includeArrStr = tF.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
-        var excludeArrStr = tF.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
+        var includeArrStr = tarjetFiles.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
+        var excludeArrStr = tarjetFiles.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        ot = ot.replace(/CK = ".*";/, 'CK = "' + pys + '";')
-                         .replace(/CIV = ".*";/, 'CIV = "' + iv + '";')
-                         .replace(/IF = new String\[\] {.*};/, 'IF = new String[] { ' + includeArrStr + ' };')
-                         .replace(/EF = new String\[\] {.*};/, 'EF = new String[] { ' + excludeArrStr + ' };');
+        content = content.replace(/CK = ".*";/, 'CRYPT_KEY = "' + key + '";')
+                         .replace(/CRYPT_IV = ".*";/, 'CRYPT_IV = "' + iv + '";')
+                         .replace(/INCLUDE_FILES = new String\[\] {.*};/, 'INCLUDE_FILES = new String[] { ' + includeArrStr + ' };')
+                         .replace(/EXCLUDE_FILES = new String\[\] {.*};/, 'EXCLUDE_FILES = new String[] { ' + excludeArrStr + ' };');
 
-        fs.writeFileSync(sourceFile, ot, 'utf-8');
+        fs.writeFileSync(sourceFile, content, 'utf-8');
     }
 }

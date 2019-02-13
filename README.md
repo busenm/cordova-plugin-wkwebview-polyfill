@@ -29,14 +29,14 @@ You can specify the encryption subjects by editing `plugin.xml`.
 **plugins/cordova-plugin-crypt-file/plugin.xml**
 
 ```
-<lsp>
+<cryptfiles>
     <include>
         <file regex="\.(htm|html|js|css)$" />
     </include>
     <exclude>
         <file regex="exclude_file\.js$" />
     </exclude>
-</lsp>
+</cryptfiles>
 ```
 
 Specify the target file as a regular expression.

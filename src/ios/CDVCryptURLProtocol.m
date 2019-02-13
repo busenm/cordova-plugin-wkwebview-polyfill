@@ -41,9 +41,9 @@ static NSString* const kExcludeFiles[] = { };
         NSString *mimeType = [self getMimeType:url];
         
         NSError* error;
-        NSString* ot = [[NSString alloc] initWithContentsOfFile:url.path encoding:NSUTF8StringEncoding error:&error];
+        NSString* content = [[NSString alloc] initWithContentsOfFile:url.path encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
-            NSData* data = [self decryptAES256WithKey:kCryptKey iv:kCryptIv data:ot];
+            NSData* data = [self decryptAES256WithKey:kCryptKey iv:kCryptIv data:content];
             [self sendResponseWithResponseCode:200 data:data mimeType:mimeType];
         }
     }

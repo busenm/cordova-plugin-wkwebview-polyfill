@@ -24,10 +24,10 @@ public class DR extends CordovaPlugin {
 
     private static final String TAG = "DR";
 
-    private static final String CK = "";
-    private static final String CIV = "";
-    private static final String[] IF = new String[] { };
-    private static final String[] EF = new String[] { };
+    private static final String CRYPT_KEY = "";
+    private static final String CRYPT_IV = "";
+    private static final String[] INCLUDE_FILES = new String[] { };
+    private static final String[] EXCLUDE_FILES = new String[] { };
 
     @Override
     public Uri remapUri(Uri uri) {
@@ -62,9 +62,9 @@ public class DR extends CordovaPlugin {
         LOG.d(TAG, "decrypt: " + uriStr);
         ByteArrayInputStream byteInputStream = null;
         try {
-            SecretKey skey = new SecretKeySpec(CK.getBytes("UTF-8"), "AES");
+            SecretKey skey = new SecretKeySpec(CRYPT_KEY.getBytes("UTF-8"), "AES");
             Cipher rce = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            rce.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CIV.getBytes("UTF-8")));
+            rce.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CRYPT_IV.getBytes("UTF-8")));
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bos.write(rce.doFinal(bytes));
@@ -80,10 +80,10 @@ public class DR extends CordovaPlugin {
 
     private boolean ICF(String uri) {
         String checkPath = uri.replace("file:///android_asset/www/", "");
-        if (!this.HM(checkPath, IF)) {
+        if (!this.HM(checkPath, INCLUDE_FILES)) {
             return false;
         }
-        if (this.HM(checkPath, EF)) {
+        if (this.HM(checkPath, EXCLUDE_FILES)) {
             return false;
         }
         return true;
