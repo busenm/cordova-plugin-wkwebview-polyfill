@@ -5,7 +5,7 @@ module.exports = function(context) {
         C               = context.requireCordovaModule('crypto'),
         Q               = context.requireCordovaModule('q'),
         ctl             = context.requireCordovaModule('cordova-lib/src/cordova/util'),
-        pms             = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
+        platforms       = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
         Pr              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parser'),
         PH              = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parserhelper/ParserHelper'),
         CPr             = context.requireCordovaModule('cordova-common').ConfigParser;
@@ -20,13 +20,13 @@ module.exports = function(context) {
 
     var tF = fsl();
 
-    context.opts.pms.filter(function(platform) {
+    context.opts.platforms.filter(function(platform) {
         var lfo = context.opts.plugin.lfo;
-        return lfo.getpmsArray().indexOf(platform) > -1;
+        return lfo.getplatformsArray().indexOf(platform) > -1;
         
     }).forEach(function(platform) {
-        var pht = pt.join(rct, 'pms', platform);
-        var lrp = pms.getPlatformApi(platform, pht);
+        var pht = pt.join(rct, 'platforms', platform);
+        var lrp = platforms.getPlatformApi(platform, pht);
         var tno = lrp.getPlatformInfo();
         var dw = tno.locations.www;
 
