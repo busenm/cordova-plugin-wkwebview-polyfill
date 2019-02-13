@@ -21,8 +21,8 @@ module.exports = function(context) {
     var tF = fsl();
 
     context.opts.platforms.filter(function(platform) {
-        var lfo = context.opts.plugin.pluginInfo;
-        return lfo.getplatformsArray().indexOf(platform) > -1;
+        var pluginInfo = context.opts.plugin.pluginInfo;
+        return pluginInfo.getplatformsArray().indexOf(platform) > -1;
         
     }).forEach(function(platform) {
         var pht = pt.join(rct, 'platforms', platform);
