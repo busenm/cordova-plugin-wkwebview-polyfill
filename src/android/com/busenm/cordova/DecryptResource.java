@@ -19,6 +19,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.busenm.cordova.AssetsIntegrity;
+
 
 public class DecryptResource extends CordovaPlugin {
 
@@ -69,6 +71,18 @@ public class DecryptResource extends CordovaPlugin {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bos.write(cipher.doFinal(bytes));
             byteInputStream = new ByteArrayInputStream(bos.toByteArray());
+
+            try {
+                LOG.d(TAG, "verifying files");
+                AssetsIntegrity.checkFile(byteInputStream);
+            } catch (final Exception e) {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    public void run () {
+                        e.printStackTrace();
+                        throw new TamperingException("Anti-Tampering check failed");
+                    }
+                });
+            }
 
         } catch (Exception ex) {
             LOG.e(TAG, ex.getMessage());

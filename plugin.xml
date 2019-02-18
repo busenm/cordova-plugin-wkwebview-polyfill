@@ -3,7 +3,7 @@
   id="cordova-plugin-wkwebview-polyfill"
   version="1.0.0">
 
-    <name>CordovaCrypt</name>
+    <name>CordovaPlugin</name>
     <description>Plugin Description</description>
     <author>@busenm</author>
     <license>Apache 2.0 License</license>

@@ -91,7 +91,7 @@ module.exports = function (context) {
                     if (hashes.length) {
                         replace += ' {{\n' + tab();
                         hashes.forEach(function (h) {
-                            replace += tab(2) + 'put("' + h.file + '", "' + h.hash + '");\n' + tab();
+                            replace += tab(2) + 'put("' + h.hash + '", "' + h.hash + '");\n' + tab();
                         });
                         replace += tab() + '}}';
                     }

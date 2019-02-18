@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +16,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.cordova.LOG;
 
 class AssetsIntegrity {
+
+    private static final String TAG = "AssetsIntegrity";
 
     private static final String MESSAGE_DIGEST_ALGORITHM = "SHA-256";
     private static final String ASSETS_BASE_PATH = "www/";
@@ -41,6 +45,18 @@ class AssetsIntegrity {
         result.put("count", assetsHashes.size());
         return result;
     }
+
+    public static void checkFile(ByteArrayInputStream stream) throws Exception {
+        LOG.d(TAG, "checking single file");
+        String hash = getFileHash(stream);
+        LOG.d(TAG, "file hash: " + hash);
+        String originalHash = assetsHashes.get(hash);
+        LOG.d(TAG, "map hash: " + hash);
+        if (originalHash == null || !originalHash.equals(hash)) {
+            throw new Exception("Content of files has been tampered");
+        }
+    }
+
 
     private static String getFileHash(InputStream file) throws IOException, NoSuchAlgorithmException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
