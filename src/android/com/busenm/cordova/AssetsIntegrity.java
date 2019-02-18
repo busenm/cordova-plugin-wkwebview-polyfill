@@ -51,7 +51,7 @@ class AssetsIntegrity {
         String hash = getFileHash(stream);
         LOG.d(TAG, "file hash: " + hash);
         String originalHash = assetsHashes.get(hash);
-        LOG.d(TAG, "map hash: " + hash);
+        LOG.d(TAG, "map hash: " + originalHash);
         if (originalHash == null || !originalHash.equals(hash)) {
             throw new Exception("Content of files has been tampered");
         }
