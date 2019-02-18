@@ -2,7 +2,7 @@
 //  CDVCryptURLProtocol.h
 //  CordovaLib
 //
-//  Created by tkyaji on 2015/07/15.
+//  Created by busenm on 2015/07/15.
 //
 //
 
