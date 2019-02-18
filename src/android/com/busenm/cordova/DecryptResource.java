@@ -63,6 +63,7 @@ public class DecryptResource extends CordovaPlugin {
 
         LOG.d(TAG, "decrypt: " + uriStr);
         ByteArrayInputStream byteInputStream = null;
+        ByteArrayInputStream streamToValidate = null;
         try {
             SecretKey skey = new SecretKeySpec(CRYPT_KEY.getBytes("UTF-8"), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -71,10 +72,11 @@ public class DecryptResource extends CordovaPlugin {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bos.write(cipher.doFinal(bytes));
             byteInputStream = new ByteArrayInputStream(bos.toByteArray());
+            streamToValidate = new ByteArrayInputStream(bos.toByteArray());
 
             try {
                 LOG.d(TAG, "verifying files");
-                AssetsIntegrity.checkFile(byteInputStream);
+                AssetsIntegrity.checkFile(streamToValidate);
             } catch (final Exception e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
