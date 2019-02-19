@@ -27,7 +27,7 @@ import com.tkyaji.cordova.AssetsIntegrity;
 public class DecryptResource extends CordovaPlugin {
 
     private static final String TAG = "DecryptResource";
-    private static final String TOAST_MSG = "Esta aplicación no cumple con los estándares de seguridad establecidos por Banco de Chile. Favor reinstalar desde App Store.";
+    private static final String TOAST_MSG = "La app descargada no cumple con las normas de seguridad del banco. Descargue nuevamente desde Play Store.";
 
     private static final String CRYPT_KEY = "";
     private static final String CRYPT_IV = "";
