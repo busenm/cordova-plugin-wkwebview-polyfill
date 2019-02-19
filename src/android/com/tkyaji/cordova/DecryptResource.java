@@ -1,7 +1,9 @@
-package com.busenm.cordova;
+package com.tkyaji.cordova;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Base64;
+import android.widget.Toast;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaResourceApi;
@@ -19,7 +21,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.busenm.cordova.AssetsIntegrity;
+import com.tkyaji.cordova.AssetsIntegrity;
 
 
 public class DecryptResource extends CordovaPlugin {
@@ -80,6 +82,8 @@ public class DecryptResource extends CordovaPlugin {
             } catch (final Exception e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
+                        Context context = cordova.getActivity().getApplicationContext();
+                        Toast.makeText(context, "Mensaje de prueba", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                         throw new TamperingException("Anti-Tampering check failed");
                     }

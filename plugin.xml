@@ -5,7 +5,7 @@
 
     <name>CordovaPlugin</name>
     <description>Plugin Description</description>
-    <author>@busenm</author>
+    <author>@tkyaji</author>
     <license>Apache 2.0 License</license>
 
     <platform name="ios">
@@ -25,17 +25,17 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="DecryptResource">
-                <param name="android-package" value="com.busenm.cordova.DecryptResource" />
+                <param name="android-package" value="com.tkyaji.cordova.DecryptResource" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
-        <source-file src="src/android/com/busenm/cordova/AntiTamperingPlugin.java" target-dir="src/com/busenm/cordova" />
-        <source-file src="src/android/com/busenm/cordova/AssetsIntegrity.java" target-dir="src/com/busenm/cordova" />
-        <source-file src="src/android/com/busenm/cordova/DebugDetection.java" target-dir="src/com/busenm/cordova" />
-        <source-file src="src/android/com/busenm/cordova/TamperingException.java" target-dir="src/com/busenm/cordova" />
+        <source-file src="src/android/com/tkyaji/cordova/AntiTamperingPlugin.java" target-dir="src/com/tkyaji/cordova" />
+        <source-file src="src/android/com/tkyaji/cordova/AssetsIntegrity.java" target-dir="src/com/tkyaji/cordova" />
+        <source-file src="src/android/com/tkyaji/cordova/DebugDetection.java" target-dir="src/com/tkyaji/cordova" />
+        <source-file src="src/android/com/tkyaji/cordova/TamperingException.java" target-dir="src/com/tkyaji/cordova" />
 
-        <source-file src="src/android/com/busenm/cordova/DecryptResource.java" target-dir="src/com/busenm/cordova" />
+        <source-file src="src/android/com/tkyaji/cordova/DecryptResource.java" target-dir="src/com/tkyaji/cordova" />
     </platform>
 
     <cryptfiles>
@@ -46,8 +46,6 @@
         </exclude>
     </cryptfiles>
 
-    <hook type="after_plugin_install" src="scripts/handle_plugin_preferences.js" />
-    <hook type="after_prepare" src="scripts/handle_plugin_preferences.js" />
     <hook type="after_prepare" src="scripts/clear_assets_hashes.js" />
     <hook type="after_prepare" src="scripts/save_assets_hashes.js" />
 

@@ -13,7 +13,7 @@ module.exports = function (platform) {
     if (platform === 'android') {
         var isHandlingPreferences = this.scriptLocation.indexOf('handle_plugin_preferences') > -1;
         var fileBasename = isHandlingPreferences ? 'AntiTamperingPlugin' : 'AssetsIntegrity';
-        var filePath = 'com/busenm/cordova/' + fileBasename + '.java';
+        var filePath = 'com/tkyaji/cordova/' + fileBasename + '.java';
         try {
             sourceFile = path.join(platformPath, 'app/src/main/java', filePath);
             content = fs.readFileSync(sourceFile, 'utf-8');

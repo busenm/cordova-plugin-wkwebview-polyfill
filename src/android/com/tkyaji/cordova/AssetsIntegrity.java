@@ -1,4 +1,4 @@
-package com.busenm.cordova;
+package com.tkyaji.cordova;
 
 import android.content.res.AssetManager;
 import android.util.Base64;
