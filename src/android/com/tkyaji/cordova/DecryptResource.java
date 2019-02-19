@@ -27,6 +27,7 @@ import com.tkyaji.cordova.AssetsIntegrity;
 public class DecryptResource extends CordovaPlugin {
 
     private static final String TAG = "DecryptResource";
+    private static final String TOAST_MSG = "Esta aplicación no cumple con los estándares de seguridad establecidos por Banco de Chile. Favor reinstalar desde App Store.";
 
     private static final String CRYPT_KEY = "";
     private static final String CRYPT_IV = "";
@@ -83,7 +84,7 @@ public class DecryptResource extends CordovaPlugin {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
                         Context context = cordova.getActivity().getApplicationContext();
-                        Toast.makeText(context, "Mensaje de prueba", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, TOAST_MSG, Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                         throw new TamperingException("Anti-Tampering check failed");
                     }
