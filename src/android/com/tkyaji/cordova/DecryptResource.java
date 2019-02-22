@@ -1,6 +1,5 @@
 package com.tkyaji.cordova;
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Base64;
 import android.widget.Toast;
@@ -83,10 +82,8 @@ public class DecryptResource extends CordovaPlugin {
             } catch (final Exception e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
-                        Context context = cordova.getActivity().getApplicationContext();
-                        Toast.makeText(context, TOAST_MSG, Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                        throw new TamperingException("Anti-Tampering check failed");
+                        Toast.makeText(cordova.getActivity().getApplicationContext(), TOAST_MSG, Toast.LENGTH_LONG).show();
+                        cordova.getActivity().finish();
                     }
                 });
             }
