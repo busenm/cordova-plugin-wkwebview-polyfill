@@ -30,11 +30,8 @@
             </feature>
         </config-file>
 
-        <source-file src="src/android/com/tkyaji/cordova/AntiTamperingPlugin.java" target-dir="src/com/tkyaji/cordova" />
         <source-file src="src/android/com/tkyaji/cordova/AssetsIntegrity.java" target-dir="src/com/tkyaji/cordova" />
-        <source-file src="src/android/com/tkyaji/cordova/DebugDetection.java" target-dir="src/com/tkyaji/cordova" />
         <source-file src="src/android/com/tkyaji/cordova/TamperingException.java" target-dir="src/com/tkyaji/cordova" />
-
         <source-file src="src/android/com/tkyaji/cordova/DecryptResource.java" target-dir="src/com/tkyaji/cordova" />
     </platform>
 
@@ -49,7 +46,6 @@
     <hook type="after_prepare" src="scripts/clear_assets_hashes.js" />
     <hook type="after_prepare" src="scripts/save_assets_hashes.js" />
 
-    <!--crypt-file hook-->
     <hook type="after_prepare" src="hooks/after_prepare.js" />
 
 </plugin>

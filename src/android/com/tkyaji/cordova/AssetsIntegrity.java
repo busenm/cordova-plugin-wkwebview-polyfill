@@ -18,6 +18,8 @@ import java.util.Map;
 
 import org.apache.cordova.LOG;
 
+import com.tkyaji.cordova.TamperingException;
+
 class AssetsIntegrity {
 
     private static final String TAG = "AssetsIntegrity";
@@ -29,23 +31,6 @@ class AssetsIntegrity {
         new HashMap<String, String>()
     );
 
-    public static JSONObject check(AssetManager assets) throws Exception {
-        for (Map.Entry<String, String> entry : assetsHashes.entrySet()) {
-            byte[] fileNameDecode = Base64.decode(entry.getKey(), 0);
-            String fileName = new String(fileNameDecode, StandardCharsets.UTF_8);
-            // Log.d("AntiTampering", fileName + " -> " + entry.getValue());
-            String filePath = ASSETS_BASE_PATH.concat(fileName);
-            InputStream file = assets.open(filePath);
-            String hash = getFileHash(file);
-            if (entry.getValue() == null || !entry.getValue().equals(hash)) {
-                throw new Exception("Content of " + fileName + " has been tampered");
-            }
-        }
-        JSONObject result = new JSONObject();
-        result.put("count", assetsHashes.size());
-        return result;
-    }
-
     public static void checkFile(ByteArrayInputStream stream) throws Exception {
         LOG.d(TAG, "checking single file");
         String hash = getFileHash(stream);
@@ -53,7 +38,7 @@ class AssetsIntegrity {
         String originalHash = assetsHashes.get(hash);
         LOG.d(TAG, "map hash: " + originalHash);
         if (originalHash == null || !originalHash.equals(hash)) {
-            throw new Exception("Content of files has been tampered");
+            throw new TamperingException("Content of files has been tampered");
         }
     }
 

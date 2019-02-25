@@ -21,6 +21,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.tkyaji.cordova.AssetsIntegrity;
+import com.tkyaji.cordova.TamperingException;
 
 
 public class DecryptResource extends CordovaPlugin {
@@ -79,7 +80,7 @@ public class DecryptResource extends CordovaPlugin {
             try {
                 LOG.d(TAG, "verifying files");
                 AssetsIntegrity.checkFile(streamToValidate);
-            } catch (final Exception e) {
+            } catch (final TamperingException e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
                         Toast.makeText(cordova.getActivity().getApplicationContext(), TOAST_MSG, Toast.LENGTH_LONG).show();
