@@ -83,7 +83,7 @@ public class DecryptResource extends CordovaPlugin {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
                         Toast.makeText(cordova.getActivity().getApplicationContext(), TOAST_MSG, Toast.LENGTH_LONG).show();
-                        cordova.getActivity().finish();
+                        cordova.getActivity().finishAndRemoveTask();
                     }
                 });
             }
