@@ -15,8 +15,5 @@ module.exports = function (preference) {
         }
     }
     preferences = metadata.get_fetch_metadata(plugin.dir).variables;
-    if (preferences) {
-        return preferences[preference];
-    }
     return preferences ? preferences[preference] : void 0;
 };

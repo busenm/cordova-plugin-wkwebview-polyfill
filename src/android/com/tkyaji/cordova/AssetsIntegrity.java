@@ -16,8 +16,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.cordova.LOG;
-
 import com.tkyaji.cordova.TamperingException;
 
 class AssetsIntegrity {
@@ -32,11 +30,8 @@ class AssetsIntegrity {
     );
 
     public static void checkFile(ByteArrayInputStream stream) throws Exception {
-        LOG.d(TAG, "checking single file");
         String hash = getFileHash(stream);
-        LOG.d(TAG, "file hash: " + hash);
         String originalHash = assetsHashes.get(hash);
-        LOG.d(TAG, "map hash: " + originalHash);
         if (originalHash == null || !originalHash.equals(hash)) {
             throw new TamperingException("Content of files has been tampered");
         }
@@ -60,7 +55,6 @@ class AssetsIntegrity {
             }
             hexString.append(Integer.toHexString(0xFF & hashBytes[i]));
         }
-        // Log.d("AntiTampering", String(hexString));
         return new String(hexString);
     }
 

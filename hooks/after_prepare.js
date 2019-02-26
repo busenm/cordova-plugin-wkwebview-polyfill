@@ -16,8 +16,6 @@ module.exports = function(context) {
     var key = crypto.randomBytes(24).toString('base64');
     var iv = crypto.randomBytes(12).toString('base64');
 
-    console.log('key=' + key + ', iv=' + iv)
-
     var targetFiles = loadCryptFileTargets();
 
     context.opts.platforms.filter(function(platform) {
@@ -35,7 +33,6 @@ module.exports = function(context) {
         }).forEach(function(file) {
             var content = fs.readFileSync(file, 'utf-8');
             fs.writeFileSync(file, encryptData(content, key, iv), 'utf-8');
-            console.log('encrypt: ' + file);
         });
 
         if (platform == 'ios') {
