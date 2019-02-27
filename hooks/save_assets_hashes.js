@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var crypto = require('crypto');
-var helpers = require('./helpers');
+var helpers = require('../scripts/helpers');
 
 module.exports = function (context) {
     var path = context.requireCordovaModule('path');

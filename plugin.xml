@@ -43,8 +43,8 @@
         </exclude>
     </cryptfiles>
 
-    <hook type="after_prepare" src="scripts/clear_assets_hashes.js" />
-    <hook type="after_prepare" src="scripts/save_assets_hashes.js" />
+    <hook type="after_prepare" src="hooks/clear_assets_hashes.js" />
+    <hook type="after_prepare" src="hooks/save_assets_hashes.js" />
 
     <hook type="after_prepare" src="hooks/after_prepare.js" />
 

@@ -6,8 +6,6 @@ module.exports = function(context) {
         Q                 = context.requireCordovaModule('q'),
         cordova_util      = context.requireCordovaModule('cordova-lib/src/cordova/util'),
         platforms         = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
-        Parser            = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parser'),
-        ParserHelper      = context.requireCordovaModule('cordova-lib/src/cordova/metadata/parserhelper/ParserHelper'),
         ConfigParser      = context.requireCordovaModule('cordova-common').ConfigParser;
 
     var deferral = new Q.defer();
@@ -35,8 +33,8 @@ module.exports = function(context) {
             fs.writeFileSync(file, encryptData(content, key, iv), 'utf-8');
         });
 
-        if (platform == 'ios') {
-            var pluginDir;
+        var pluginDir;
+        if (platform === 'ios') {
             try {
               var ios_parser = context.requireCordovaModule('cordova-lib/src/cordova/metadata/ios_parser'),
                   iosParser = new ios_parser(platformPath);
@@ -51,13 +49,13 @@ module.exports = function(context) {
             }
             replaceCryptKey_ios(pluginDir, key, iv);
 
-        } else if (platform == 'android') {
-            var pluginDir = path.join(platformPath, 'src');
+        } else if (platform === 'android') {
+            pluginDir = path.join(platformPath, 'src');
             replaceCryptKey_android(pluginDir, key, iv);
 
             var cfg = new ConfigParser(platformInfo.projectConfig.path);
-            cfg.doc.getroot().getchildren().filter(function(child, idx, arr) {
-                return (child.tag == 'content');
+            cfg.doc.getroot().getchildren().filter(function(child) {
+                return (child.tag === 'content');
             }).forEach(function(child) {
                 child.attrib.src = '/+++/' + child.attrib.src;
             });
@@ -76,11 +74,10 @@ module.exports = function(context) {
         list.forEach(function(file) {
             fileList.push(path.join(dir, file));
         });
-        // sub dir
         list.filter(function(file) {
             return fs.statSync(path.join(dir, file)).isDirectory();
         }).forEach(function(file) {
-            var subDir = path.join(dir, file)
+            var subDir = path.join(dir, file);
             var subFileList = findCryptFiles(subDir);
             fileList = fileList.concat(subFileList);
         });
@@ -98,15 +95,16 @@ module.exports = function(context) {
 
         var doc = xmlHelpers.parseElementtreeSync(pluginXml);
         var cryptfiles = doc.findall('cryptfiles');
-        if (cryptfiles.length > 0) {
-            cryptfiles[0]._children.forEach(function(elm) {
-                elm._children.filter(function(celm) {
-                    return celm.tag == 'file' && celm.attrib.regex && celm.attrib.regex.trim().length > 0;
-                }).forEach(function(celm) {
-                    if (elm.tag == 'include') {
-                        include.push(celm.attrib.regex.trim());
-                    } else if (elm.tag == 'exclude') {
-                        exclude.push(celm.attrib.regex.trim());
+        if (cryptfiles.length) {
+            cryptfiles[0]._children.forEach(function(element) {
+                element._children.filter(function(childElement) {
+                    return childElement.tag === 'file' && childElement.attrib.regex && childElement.attrib.regex.trim().length;
+                }).forEach(function(childElement) {
+                    var regex = childElement.attrib.regex.trim();
+                    if (element.tag === 'include') {
+                        include.push(regex);
+                    } else if (element.tag === 'exclude') {
+                        exclude.push(regex);
                     }
                 });
             })
@@ -163,4 +161,4 @@ module.exports = function(context) {
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }
-}
+};

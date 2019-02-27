@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var helpers = require('./helpers');
+var helpers = require('../scripts/helpers');
 
 module.exports = function (context) {
     var fs = context.requireCordovaModule('fs');
@@ -19,21 +19,21 @@ module.exports = function (context) {
 
             try {
                 fs.writeFileSync(source.path, content, 'utf-8');
-            } catch (e) {
-                helpers.exit('Unable to write java class source at path ' + source.path, e);
+            } catch (ex) {
+                helpers.exit('Unable to write java class source at path ' + source.path, ex);
             }
         }
 
         if (platform === 'ios') {
-            content = source.content.replace(/assetsHashes = (@{([^}]*)});/, function (a, b) {
+            content = source.content.replace(/assetsHashes = (@{([^}]*)});/, function (match, group) {
                 var empty = '@{}';
-                return a.replace(b, empty);
+                return match.replace(group, empty);
             });
 
             try {
                 fs.writeFileSync(source.path, content, 'utf-8');
-            } catch (e) {
-                helpers.exit('Unable to write obj-c source at path ' + source.path, e);
+            } catch (ex) {
+                helpers.exit('Unable to write obj-c source at path ' + source.path, ex);
             }
         }
     });

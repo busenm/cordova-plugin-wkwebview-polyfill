@@ -20,8 +20,6 @@ import com.tkyaji.cordova.TamperingException;
 
 class AssetsIntegrity {
 
-    private static final String TAG = "AssetsIntegrity";
-
     private static final String MESSAGE_DIGEST_ALGORITHM = "SHA-256";
     private static final String ASSETS_BASE_PATH = "www/";
 
@@ -50,7 +48,7 @@ class AssetsIntegrity {
         byte[] hashBytes = digest.digest(buffer.toByteArray());
         StringBuffer hexString = new StringBuffer();
         for (int i = 0; i < hashBytes.length; i++) {
-            if ((0xff & hashBytes[i]) < 0x10) {
+            if ((0xFF & hashBytes[i]) < 0x10) {
                 hexString.append("0");
             }
             hexString.append(Integer.toHexString(0xFF & hashBytes[i]));
