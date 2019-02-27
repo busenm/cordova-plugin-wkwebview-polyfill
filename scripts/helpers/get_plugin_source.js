@@ -15,12 +15,12 @@ module.exports = function (platform) {
         try {
             sourceFile = path.join(platformPath, 'app/src/main/java', filePath);
             content = fs.readFileSync(sourceFile, 'utf-8');
-        } catch (_e) {
+        } catch (e) {
             try {
                 sourceFile = path.join(platformPath, 'src', filePath);
                 content = fs.readFileSync(sourceFile, 'utf-8');
-            } catch (e) {
-                helpers.exit('Unable to read java class source at path ' + sourceFile, e);
+            } catch (ex) {
+                helpers.exit('Unable to read java class source at path ' + sourceFile, ex);
             }
         }
     }
@@ -31,7 +31,7 @@ module.exports = function (platform) {
             var IosPlatformApi = require(path.join(platformPath, 'cordova/Api'));
             var locations = (new IosPlatformApi()).locations;
             projectName = locations.xcodeCordovaProj;
-        } catch (e) {
+        } catch (ex) {
             var IosParser = this.requireCordovaModule('cordova-lib/src/cordova/metadata/ios_parser');
             var iosParser = new IosParser(platformPath);
             projectName = iosParser.cordovaproj;
@@ -40,8 +40,8 @@ module.exports = function (platform) {
         sourceFile = path.join(pluginDir, 'AntiTamperingPlugin.m');
         try {
             content = fs.readFileSync(sourceFile, 'utf-8');
-        } catch (e) {
-            helpers.exit('Unable to read obj-c source at path ' + sourceFile, e);
+        } catch (ex) {
+            helpers.exit('Unable to read obj-c source at path ' + sourceFile, ex);
         }
     }
 

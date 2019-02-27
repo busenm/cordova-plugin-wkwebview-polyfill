@@ -8,12 +8,20 @@ module.exports = function (preference) {
     var plugin = this.opts.plugin;
     var configPlugin = config.getPlugin(plugin.id);
     var preferences;
-    if (configPlugin && typeof configPlugin.variables === 'object') {
+    if (configPlugin && hasVariables(configPlugin)) {
         preferences = configPlugin.variables;
-        if (Object.keys(preferences).length && typeof preferences[preference] !== 'undefined') {
+        if (Object.keys(preferences).length && hasPreference(preferences, preference)) {
             return preferences[preference];
         }
     }
     preferences = metadata.get_fetch_metadata(plugin.dir).variables;
     return preferences ? preferences[preference] : void 0;
+
+    function hasVariables(config){
+        return typeof config.variables === 'object';
+    }
+
+    function hasPreference(preferenceArray, preference) {
+        return typeof preferenceArray[preference] !== 'undefined';
+    }
 };

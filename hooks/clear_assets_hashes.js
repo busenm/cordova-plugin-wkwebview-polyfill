@@ -12,8 +12,10 @@ module.exports = function (context) {
         var content = source.content;
 
         if (platform === 'android') {
-            content = source.content.replace(/\s*put\("[^"]+",\s"[^"]{64}"\);/g, '')
-            .replace(/assetsHashes\s*=.+\s*new.*(\(\d+\)[^\w]*)\);/, function (match, group) {
+            var assetMapContentRegex = '/\s*put\("[^"]+",\s"[^"]{64}"\);/g';
+            var assetMapRegex = '/assetsHashes\\s*=.+\\s*new.*(\\(\\d+\\)[^\\w]*)\\);/';
+            content = source.content.replace(assetMapContentRegex, '')
+            .replace(assetMapRegex, function (match, group) {
                 return match.replace(group, '()\n    ');
             });
 
@@ -25,7 +27,8 @@ module.exports = function (context) {
         }
 
         if (platform === 'ios') {
-            content = source.content.replace(/assetsHashes = (@{([^}]*)});/, function (match, group) {
+            var assetMapRegex = '/assetsHashes = (@{([^}]*)});/';
+            content = source.content.replace(assetMapRegex, function (match, group) {
                 var empty = '@{}';
                 return match.replace(group, empty);
             });
