@@ -82,11 +82,15 @@ module.exports = function (context) {
         });
 
         if (platform === 'android') {
-            content = content.replace(/\s*put\("[^"]+",\s"[^"]{64}"\);/g, '')
-                .replace(/assetsHashes\s*=.+\s*new.*(\(\d+\)[^\w]*)\);/, function (match, group) {
+            var assetMapContentRegex = /\s*put\("[^"]+",\s"[^"]{64}"\);/g;
+            var assetMapRegex = /assetsHashes\s*=.+\s*new.*(\(\d+\)[^\w]*)\);/;
+            var emptyAssetMapRegex = /assetsHashes\s*=.+\s*new.*(\(.*\))/;
+
+            content = content.replace(assetMapContentRegex, '')
+                .replace(assetMapRegex, function (match, group) {
                     return match.replace(group, '()\n' + tab());
                 })
-                .replace(/assetsHashes\s*=.+\s*new.*(\(.*\))/, function (match, group) {
+                .replace(emptyAssetMapRegex, function (match, group) {
                     var replace = match.replace(group, '(' + (hashes.length || '') + ')');
                     if (hashes.length) {
                         replace += ' {{\n' + tab();
@@ -106,7 +110,8 @@ module.exports = function (context) {
         }
 
         if (platform === 'ios') {
-            content = content.replace(/assetsHashes = (@{([^}]*)});/, function (a, b) {
+            var assetMapRegex = /assetsHashes = (@{([^}]*)});/;
+            content = content.replace(assetMapRegex, function (a, b) {
                 var list = '@{\n' + tab();
                 hashes.forEach(function (h) {
                     list += tab() + '@"' + h.file + '": @"' + h.hash + '",\n' + tab();
