@@ -1,0 +1,19 @@
+2019-02-28 17:13:07 -0300 - 66520b5 : Version bump --versión 2.0.0
+2019-02-28 17:07:09 -0300 - b1821a7 : Se elimina archivo LICENSE
+2019-02-28 16:52:05 -0300 - c13f825 : Se encripta mensaje de error para validación de archivos
+2019-02-28 11:35:31 -0300 - 1ab5ba0 : Se cambia map por foreach en hook de guardado de hashes
+2019-02-28 09:24:35 -0300 - 1e87724 : Se remueve lógica de anti-tampering para ios
+2019-02-27 17:32:45 -0300 - f4419f0 : Se modifica hook de guardado de hashes según comentarios
+2019-02-27 15:14:21 -0300 - b6ef2ea : Se simplifican condicionales de scripts. Se extraen expresiones regulares a variables.
+2019-02-27 12:29:24 -0300 - 1036d10 : Se mueven hooks de directorio. Se hacen correcciones según comentarios.
+2019-02-26 11:44:21 -0300 - b361d8b : Se eliminan logs. Se eliminan funciones sin uso de package.json. Se modifica script de preferencias.
+2019-02-25 14:06:10 -0300 - 18c397b : Se remueven clases y métodos sin utilizar. Se ajusta archivo plugin.xml
+2019-02-25 11:28:55 -0300 - a0d5e6c : Se cambia método de cerrado de aplicación de forma que no quede en segundo plano al fallar la validación de archivos.
+2019-02-22 16:38:09 -0300 - f346f0a : Se modifica lógica de excepción cuando falla la validación de anti-tampering
+2019-02-19 16:20:03 -0300 - ff23430 : Se cambia mensaje de error para Android
+2019-02-19 15:06:33 -0300 - c609623 : Se cambia mensaje de toast en validación de archivos
+2019-02-19 15:01:10 -0300 - 711d378 : Se modifican rutas con nombre de usuario. Se eliminan hooks sin uso. Se agrega toast a validación de archivos
+2019-02-18 18:00:01 -0300 - abda7bb : Se cambia un log
+2019-02-18 15:25:40 -0300 - 7ea9b20 : Se agrega stream adicional para validación de archivos
+2019-02-18 10:44:31 -0300 - d862e3c : Se agrega método de validación de archivos
+2019-02-18 09:53:43 -0300 - eef4f90 : Se copian archivos de plugin de antitampering
