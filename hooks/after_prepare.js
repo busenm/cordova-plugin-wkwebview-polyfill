@@ -151,13 +151,16 @@ module.exports = function(context) {
         var sourceFile = path.join(pluginDir, 'com/tkyaji/cordova/DecryptResource.java');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
+        var toast_msg = 'La app descargada no cumple con las normas de seguridad del banco. Descargue nuevamente desde Play Store.';
+
         var includeArrStr = targetFiles.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
         var excludeArrStr = targetFiles.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
         content = content.replace(/CRYPT_KEY = ".*";/, 'CRYPT_KEY = "' + key + '";')
                          .replace(/CRYPT_IV = ".*";/, 'CRYPT_IV = "' + iv + '";')
                          .replace(/INCLUDE_FILES = new String\[\] {.*};/, 'INCLUDE_FILES = new String[] { ' + includeArrStr + ' };')
-                         .replace(/EXCLUDE_FILES = new String\[\] {.*};/, 'EXCLUDE_FILES = new String[] { ' + excludeArrStr + ' };');
+                         .replace(/EXCLUDE_FILES = new String\[\] {.*};/, 'EXCLUDE_FILES = new String[] { ' + excludeArrStr + ' };')
+                         .replace(/TOAST_MSG = ".*";/, 'TOAST_MSG = "' + encryptData(toast_msg, key, iv) + '";');
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }

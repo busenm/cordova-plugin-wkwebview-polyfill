@@ -25,8 +25,7 @@ import com.tkyaji.cordova.TamperingException;
 
 public class DecryptResource extends CordovaPlugin {
 
-    private static final String TOAST_MSG = "La app descargada no cumple con las normas de seguridad del banco. Descargue nuevamente desde Play Store.";
-
+    private static final String TOAST_MSG = "";
     private static final String CRYPT_KEY = "";
     private static final String CRYPT_IV = "";
     private static final String[] INCLUDE_FILES = new String[] { };
@@ -74,12 +73,16 @@ public class DecryptResource extends CordovaPlugin {
             byteInputStream = new ByteArrayInputStream(bos.toByteArray());
             streamToValidate = new ByteArrayInputStream(bos.toByteArray());
 
+            byte[] msgBytes = Base64.decode(TOAST_MSG, Base64.DEFAULT);
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            baos.write(cipher.doFinal(msgBytes));
+
             try {
                 AssetsIntegrity.checkFile(streamToValidate);
             } catch (final TamperingException e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
-                        Toast.makeText(cordova.getActivity().getApplicationContext(), TOAST_MSG, Toast.LENGTH_LONG).show();
+                        Toast.makeText(cordova.getActivity().getApplicationContext(), new String(baos.toByteArray()), Toast.LENGTH_LONG).show();
                         cordova.getActivity().finishAndRemoveTask();
                     }
                 });
