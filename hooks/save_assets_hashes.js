@@ -39,7 +39,7 @@ module.exports = function (context) {
     function getPlatformAssets (dir) {
         var assetsList = [];
         var list = fs.readdirSync(dir);
-        list.map(function (file) {
+        list.forEach(function (file) {
             var filePath = path.join(dir, file);
             if (fs.statSync(filePath).isDirectory()) {
                 var subDirList = getPlatformAssets(filePath, excludeExts);
