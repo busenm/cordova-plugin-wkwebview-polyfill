@@ -108,24 +108,6 @@ module.exports = function (context) {
                 helpers.exit('Unable to write java class source at path ' + source.path, e);
             }
         }
-
-        if (platform === 'ios') {
-            var assetMapRegex = /assetsHashes = (@{([^}]*)});/;
-            content = content.replace(assetMapRegex, function (a, b) {
-                var list = '@{\n' + tab();
-                hashes.forEach(function (h) {
-                    list += tab() + '@"' + h.file + '": @"' + h.hash + '",\n' + tab();
-                });
-                list += '}';
-                return a.replace(b, list);
-            });
-
-            try {
-                fs.writeFileSync(source.path, content, 'utf-8');
-            } catch (e) {
-                helpers.exit('Unable to write obj-c source at path ' + source.path, e);
-            }
-        }
     });
 
     function tab (size) {

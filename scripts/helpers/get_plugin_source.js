@@ -25,26 +25,6 @@ module.exports = function (platform) {
         }
     }
 
-    if (platform === 'ios') {
-        var projectName;
-        try {
-            var IosPlatformApi = require(path.join(platformPath, 'cordova/Api'));
-            var locations = (new IosPlatformApi()).locations;
-            projectName = locations.xcodeCordovaProj;
-        } catch (ex) {
-            var IosParser = this.requireCordovaModule('cordova-lib/src/cordova/metadata/ios_parser');
-            var iosParser = new IosParser(platformPath);
-            projectName = iosParser.cordovaproj;
-        }
-        pluginDir = path.join(projectName, 'Plugins', this.opts.plugin.id);
-        sourceFile = path.join(pluginDir, 'AntiTamperingPlugin.m');
-        try {
-            content = fs.readFileSync(sourceFile, 'utf-8');
-        } catch (ex) {
-            helpers.exit('Unable to read obj-c source at path ' + sourceFile, ex);
-        }
-    }
-
     return {
         content: content,
         path: sourceFile

@@ -25,19 +25,5 @@ module.exports = function (context) {
                 helpers.exit('Unable to write java class source at path ' + source.path, ex);
             }
         }
-
-        if (platform === 'ios') {
-            var assetMapRegex = '/assetsHashes = (@{([^}]*)});/';
-            content = source.content.replace(assetMapRegex, function (match, group) {
-                var empty = '@{}';
-                return match.replace(group, empty);
-            });
-
-            try {
-                fs.writeFileSync(source.path, content, 'utf-8');
-            } catch (ex) {
-                helpers.exit('Unable to write obj-c source at path ' + source.path, ex);
-            }
-        }
     });
 };
