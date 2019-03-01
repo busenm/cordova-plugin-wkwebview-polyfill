@@ -83,8 +83,8 @@ module.exports = function (context) {
 
         if (platform === 'android') {
             var assetMapContentRegex = /\s*put\("[^"]+",\s"[^"]{64}"\);/g;
-            var assetMapRegex = /assetsHashes\s*=.+\s*new.*(\(\d+\)[^\w]*)\);/;
-            var emptyAssetMapRegex = /assetsHashes\s*=.+\s*new.*(\(.*\))/;
+            var assetMapRegex = /aH\s*=.+\s*new.*(\(\d+\)[^\w]*)\);/;
+            var emptyAssetMapRegex = /aH\s*=.+\s*new.*(\(.*\))/;
 
             content = content.replace(assetMapContentRegex, '')
                 .replace(assetMapRegex, function (match, group) {

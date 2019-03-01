@@ -11,7 +11,7 @@ module.exports = function (platform) {
     var content;
 
     if (platform === 'android') {
-        var filePath = 'com/tkyaji/cordova/AssetsIntegrity.java';
+        var filePath = 'com/bch/cdv/AI.java';
         try {
             sourceFile = path.join(platformPath, 'app/src/main/java', filePath);
             content = fs.readFileSync(sourceFile, 'utf-8');

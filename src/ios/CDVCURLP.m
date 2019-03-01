@@ -1,32 +1,32 @@
 //
-//  CDVCryptURLProtocol.m
+//  CDVCURLP.m
 //  CordovaLib
 //
-//  Created by tkyaji on 2015/07/15.
+//  Created by bch on 2015/07/15.
 //
 //
 
-#import "CDVCryptURLProtocol.h"
+#import "CDVCURLP.h"
 
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <CommonCrypto/CommonCryptor.h>
 #import <CommonCrypto/CommonDigest.h>
 
 
-static NSString* const kCryptKey = @"";
-static NSString* const kCryptIv = @"";
+static NSString* const rCK = @"";
+static NSString* const rCIV = @"";
 
-static int const kIncludeFileLength = 0;
-static int const kExcludeFileLength = 0;
-static NSString* const kIncludeFiles[] = { };
-static NSString* const kExcludeFiles[] = { };
+static int const kFINL = 0;
+static int const kFEXL = 0;
+static NSString* const kFIN[] = { };
+static NSString* const kFEX[] = { };
 
 
-@implementation CDVCryptURLProtocol
+@implementation CDVCURLP
 
 + (BOOL)canInitWithRequest:(NSURLRequest*)theRequest
 {
-    if ([self checkCryptFile:theRequest.URL]) {
+    if ([self cCF:theRequest.URL]) {
         return YES;
     }
     
@@ -37,13 +37,13 @@ static NSString* const kExcludeFiles[] = { };
 {
     NSURL* url = self.request.URL;
     
-    if ([[self class] checkCryptFile:url]) {
+    if ([[self class] cCF:url]) {
         NSString *mimeType = [self getMimeType:url];
         
         NSError* error;
         NSString* content = [[NSString alloc] initWithContentsOfFile:url.path encoding:NSUTF8StringEncoding error:&error];
         if (!error) {
-            NSData* data = [self decryptAES256WithKey:kCryptKey iv:kCryptIv data:content];
+            NSData* data = [self dWK:rCK iv:rCIV data:content];
             [self sendResponseWithResponseCode:200 data:data mimeType:mimeType];
         }
     }
@@ -51,7 +51,7 @@ static NSString* const kExcludeFiles[] = { };
     [super startLoading];
 }
 
-+ (BOOL)checkCryptFile:(NSURL *)url {
++ (BOOL)cCF:(NSURL *)url {
     if (![url.scheme isEqual: @"file"]) {
         return NO;
     }
@@ -59,10 +59,10 @@ static NSString* const kExcludeFiles[] = { };
     NSString *wwwPath = [[NSBundle mainBundle].resourcePath stringByAppendingString:@"/www/"];
     NSString *checkPath = [url.path stringByReplacingOccurrencesOfString:wwwPath withString:@""];
     
-    if (![self hasMatch:checkPath regexArr:kIncludeFiles length:kIncludeFileLength]) {
+    if (![self hasMatch:checkPath regexArr:kFIN length:kFINL]) {
         return NO;
     }
-    if ([self hasMatch:checkPath regexArr:kExcludeFiles length:kExcludeFileLength]) {
+    if ([self hasMatch:checkPath regexArr:kFEX length:kFEXL]) {
         return NO;
     }
 
@@ -116,7 +116,7 @@ static NSString* const kExcludeFiles[] = { };
     return mimeType;
 }
 
-- (NSData *)decryptAES256WithKey:(NSString *)key iv:(NSString *)iv data:(NSString *)base64String {
+- (NSData *)dWK:(NSString *)key iv:(NSString *)iv data:(NSString *)base64String {
     
     NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
     

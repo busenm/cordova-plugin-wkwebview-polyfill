@@ -5,34 +5,34 @@
 
     <name>CordovaPlugin</name>
     <description>Plugin Description</description>
-    <author>@tkyaji</author>
+    <author>@bch</author>
     <license>Apache 2.0 License</license>
 
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
-		    <feature name="CDVCrypt">
-			    <param name="ios-package" value="CDVCrypt"/>
+		    <feature name="CDVC">
+			    <param name="ios-package" value="CDVC"/>
 			    <param name="onload" value="true"/>
 		    </feature>
         </config-file>
 
-        <header-file src="src/ios/CDVCrypt.h" />
-        <source-file src="src/ios/CDVCrypt.m" />
-        <header-file src="src/ios/CDVCryptURLProtocol.h" />
-        <source-file src="src/ios/CDVCryptURLProtocol.m" />
+        <header-file src="src/ios/CDVC.h" />
+        <source-file src="src/ios/CDVC.m" />
+        <header-file src="src/ios/CDVCURLP.h" />
+        <source-file src="src/ios/CDVCURLP.m" />
     </platform>
 
     <platform name="android">
         <config-file target="config.xml" parent="/*">
-            <feature name="DecryptResource">
-                <param name="android-package" value="com.tkyaji.cordova.DecryptResource" />
+            <feature name="DR">
+                <param name="android-package" value="com.bch.cdv.DR" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
-        <source-file src="src/android/com/tkyaji/cordova/AssetsIntegrity.java" target-dir="src/com/tkyaji/cordova" />
-        <source-file src="src/android/com/tkyaji/cordova/TamperingException.java" target-dir="src/com/tkyaji/cordova" />
-        <source-file src="src/android/com/tkyaji/cordova/DecryptResource.java" target-dir="src/com/tkyaji/cordova" />
+        <source-file src="src/android/com/bch/cdv/AI.java" target-dir="src/com/bch/cdv" />
+        <source-file src="src/android/com/bch/cdv/TE.java" target-dir="src/com/bch/cdv" />
+        <source-file src="src/android/com/bch/cdv/DR.java" target-dir="src/com/bch/cdv" />
     </platform>
 
     <cryptfiles>

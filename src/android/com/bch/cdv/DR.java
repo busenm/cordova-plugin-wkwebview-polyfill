@@ -1,4 +1,4 @@
-package com.tkyaji.cordova;
+package com.bch.cdv;
 
 import android.net.Uri;
 import android.util.Base64;
@@ -19,17 +19,17 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.tkyaji.cordova.AssetsIntegrity;
-import com.tkyaji.cordova.TamperingException;
+import com.bch.cdv.AI;
+import com.bch.cdv.TE;
 
 
-public class DecryptResource extends CordovaPlugin {
+public class DR extends CordovaPlugin {
 
-    private static final String TOAST_MSG = "";
-    private static final String CRYPT_KEY = "";
-    private static final String CRYPT_IV = "";
-    private static final String[] INCLUDE_FILES = new String[] { };
-    private static final String[] EXCLUDE_FILES = new String[] { };
+    private static final String TM = "";
+    private static final String CK = "";
+    private static final String CIV = "";
+    private static final String[] F_IN = new String[] { };
+    private static final String[] F_EX = new String[] { };
 
     @Override
     public Uri remapUri(Uri uri) {
@@ -47,7 +47,7 @@ public class DecryptResource extends CordovaPlugin {
 
         CordovaResourceApi.OpenForReadResult readResult =  this.webView.getResourceApi().openForRead(Uri.parse(uriStr), true);
 
-        if (!isCryptFiles(uriStr)) {
+        if (!isIncluded(uriStr)) {
             return readResult;
         }
 
@@ -61,25 +61,25 @@ public class DecryptResource extends CordovaPlugin {
 
         byte[] bytes = Base64.decode(strb.toString(), Base64.DEFAULT);
 
-        ByteArrayInputStream byteInputStream = null;
-        ByteArrayInputStream streamToValidate = null;
+        ByteArrayInputStream bis = null;
+        ByteArrayInputStream stv = null;
         try {
-            SecretKey skey = new SecretKeySpec(CRYPT_KEY.getBytes("UTF-8"), "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(CRYPT_IV.getBytes("UTF-8")));
+            SecretKey sk = new SecretKeySpec(CK.getBytes("UTF-8"), "AES");
+            Cipher cph = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cph.init(Cipher.DECRYPT_MODE, sk, new IvParameterSpec(CIV.getBytes("UTF-8")));
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bos.write(cipher.doFinal(bytes));
-            byteInputStream = new ByteArrayInputStream(bos.toByteArray());
-            streamToValidate = new ByteArrayInputStream(bos.toByteArray());
+            bos.write(cph.doFinal(bytes));
+            bis = new ByteArrayInputStream(bos.toByteArray());
+            stv = new ByteArrayInputStream(bos.toByteArray());
 
-            byte[] msgBytes = Base64.decode(TOAST_MSG, Base64.DEFAULT);
+            byte[] msgBytes = Base64.decode(TM, Base64.DEFAULT);
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            baos.write(cipher.doFinal(msgBytes));
+            baos.write(cph.doFinal(msgBytes));
 
             try {
-                AssetsIntegrity.checkFile(streamToValidate);
-            } catch (final TamperingException e) {
+                AI.checkFile(stv);
+            } catch (final TE e) {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     public void run () {
                         Toast.makeText(cordova.getActivity().getApplicationContext(), new String(baos.toByteArray()), Toast.LENGTH_LONG).show();
@@ -93,15 +93,15 @@ public class DecryptResource extends CordovaPlugin {
         }
 
         return new CordovaResourceApi.OpenForReadResult(
-                readResult.uri, byteInputStream, readResult.mimeType, readResult.length, readResult.assetFd);
+                readResult.uri, bis, readResult.mimeType, readResult.length, readResult.assetFd);
     }
 
-    private boolean isCryptFiles(String uri) {
+    private boolean isIncluded(String uri) {
         String checkPath = uri.replace("file:///android_asset/www/", "");
-        if (!this.hasMatch(checkPath, INCLUDE_FILES)) {
+        if (!this.hasMatch(checkPath, F_IN)) {
             return false;
         }
-        if (this.hasMatch(checkPath, EXCLUDE_FILES)) {
+        if (this.hasMatch(checkPath, F_EX)) {
             return false;
         }
         return true;

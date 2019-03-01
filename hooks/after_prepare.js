@@ -131,24 +131,24 @@ module.exports = function(context) {
     }
 
     function replaceCryptKey_ios(pluginDir, key, iv) {
-        var sourceFile = path.join(pluginDir, 'CDVCryptURLProtocol.m');
+        var sourceFile = path.join(pluginDir, 'CDVCURLP.m');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
         var includeArrStr = targetFiles.include.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
         var excludeArrStr = targetFiles.exclude.map(function(pattern) { return '@"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        content = content.replace(/kCryptKey = @".*";/, 'kCryptKey = @"' + key + '";')
-                         .replace(/kCryptIv = @".*";/, 'kCryptIv = @"' + iv + '";')
-                         .replace(/kIncludeFiles\[\] = {.*};/, 'kIncludeFiles\[\] = { ' + includeArrStr + ' };')
-                         .replace(/kExcludeFiles\[\] = {.*};/, 'kExcludeFiles\[\] = { ' + excludeArrStr + ' };')
-                         .replace(/kIncludeFileLength = [0-9]+;/, 'kIncludeFileLength = ' + targetFiles.include.length + ';')
-                         .replace(/kExcludeFileLength = [0-9]+;/, 'kExcludeFileLength = ' + targetFiles.exclude.length + ';');
+        content = content.replace(/rCK = @".*";/, 'rCK = @"' + key + '";')
+                         .replace(/rCIV = @".*";/, 'rCIV = @"' + iv + '";')
+                         .replace(/kFIN\[\] = {.*};/, 'kFIN\[\] = { ' + includeArrStr + ' };')
+                         .replace(/kFEX\[\] = {.*};/, 'kFEX\[\] = { ' + excludeArrStr + ' };')
+                         .replace(/kFINL = [0-9]+;/, 'kFINL = ' + targetFiles.include.length + ';')
+                         .replace(/kFEXL = [0-9]+;/, 'kFEXL = ' + targetFiles.exclude.length + ';');
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }
 
     function replaceCryptKey_android(pluginDir, key, iv) {
-        var sourceFile = path.join(pluginDir, 'com/tkyaji/cordova/DecryptResource.java');
+        var sourceFile = path.join(pluginDir, 'com/bch/cdv/DR.java');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
         var toast_msg = 'La app descargada no cumple con las normas de seguridad del banco. Descargue nuevamente desde Play Store.';
@@ -156,11 +156,11 @@ module.exports = function(context) {
         var includeArrStr = targetFiles.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
         var excludeArrStr = targetFiles.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        content = content.replace(/CRYPT_KEY = ".*";/, 'CRYPT_KEY = "' + key + '";')
-                         .replace(/CRYPT_IV = ".*";/, 'CRYPT_IV = "' + iv + '";')
-                         .replace(/INCLUDE_FILES = new String\[\] {.*};/, 'INCLUDE_FILES = new String[] { ' + includeArrStr + ' };')
-                         .replace(/EXCLUDE_FILES = new String\[\] {.*};/, 'EXCLUDE_FILES = new String[] { ' + excludeArrStr + ' };')
-                         .replace(/TOAST_MSG = ".*";/, 'TOAST_MSG = "' + encryptData(toast_msg, key, iv) + '";');
+        content = content.replace(/CK = ".*";/, 'CK = "' + key + '";')
+                         .replace(/CIV = ".*";/, 'CIV = "' + iv + '";')
+                         .replace(/F_IN = new String\[\] {.*};/, 'F_IN = new String[] { ' + includeArrStr + ' };')
+                         .replace(/F_EX = new String\[\] {.*};/, 'F_EX = new String[] { ' + excludeArrStr + ' };')
+                         .replace(/TM = ".*";/, 'TM = "' + encryptData(toast_msg, key, iv) + '";');
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }
