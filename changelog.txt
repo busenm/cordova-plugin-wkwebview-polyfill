@@ -1,19 +1,20 @@
-2019-02-28 17:13:07 -0300 - 66520b5 : Version bump --versión 2.0.0
-2019-02-28 17:07:09 -0300 - b1821a7 : Se elimina archivo LICENSE
-2019-02-28 16:52:05 -0300 - c13f825 : Se encripta mensaje de error para validación de archivos
-2019-02-28 11:35:31 -0300 - 1ab5ba0 : Se cambia map por foreach en hook de guardado de hashes
-2019-02-28 09:24:35 -0300 - 1e87724 : Se remueve lógica de anti-tampering para ios
-2019-02-27 17:32:45 -0300 - f4419f0 : Se modifica hook de guardado de hashes según comentarios
-2019-02-27 15:14:21 -0300 - b6ef2ea : Se simplifican condicionales de scripts. Se extraen expresiones regulares a variables.
-2019-02-27 12:29:24 -0300 - 1036d10 : Se mueven hooks de directorio. Se hacen correcciones según comentarios.
-2019-02-26 11:44:21 -0300 - b361d8b : Se eliminan logs. Se eliminan funciones sin uso de package.json. Se modifica script de preferencias.
-2019-02-25 14:06:10 -0300 - 18c397b : Se remueven clases y métodos sin utilizar. Se ajusta archivo plugin.xml
-2019-02-25 11:28:55 -0300 - a0d5e6c : Se cambia método de cerrado de aplicación de forma que no quede en segundo plano al fallar la validación de archivos.
-2019-02-22 16:38:09 -0300 - f346f0a : Se modifica lógica de excepción cuando falla la validación de anti-tampering
-2019-02-19 16:20:03 -0300 - ff23430 : Se cambia mensaje de error para Android
-2019-02-19 15:06:33 -0300 - c609623 : Se cambia mensaje de toast en validación de archivos
-2019-02-19 15:01:10 -0300 - 711d378 : Se modifican rutas con nombre de usuario. Se eliminan hooks sin uso. Se agrega toast a validación de archivos
-2019-02-18 18:00:01 -0300 - abda7bb : Se cambia un log
-2019-02-18 15:25:40 -0300 - 7ea9b20 : Se agrega stream adicional para validación de archivos
-2019-02-18 10:44:31 -0300 - d862e3c : Se agrega método de validación de archivos
-2019-02-18 09:53:43 -0300 - eef4f90 : Se copian archivos de plugin de antitampering
+d3d4c75d12f766975e80c0c4ad63239f9891bb78 - Cambios en changelog 2.0.0
+66520b514b7896c2341bfe7b5b35397bf5040d44 - Version bump --versión 2.0.0
+b1821a7d1d4be38f86d9219059eef1318b131a76 - Se elimina archivo LICENSE
+c13f825d65cdd1d331f56644d8ffaa13b31ecf37 - Se encripta mensaje de error para validación de archivos
+1ab5ba0b6487cea9244fd9d91e25b5b732272add - Se cambia map por foreach en hook de guardado de hashes
+1e8772420922a23dee119514552bc6378c41beeb - Se remueve lógica de anti-tampering para ios
+f4419f0c39b8a395e195d7406d73ab65c6e461d3 - Se modifica hook de guardado de hashes según comentarios
+b6ef2ea13e8755f18bc4a2b806936c9696257eff - Se simplifican condicionales de scripts. Se extraen expresiones regulares a variables.
+1036d10f6c7c34d32315b2bf906fa17215cf1371 - Se mueven hooks de directorio. Se hacen correcciones según comentarios.
+b361d8baff48d51dca1b47b2c695d92cc4dbce5d - Se eliminan logs. Se eliminan funciones sin uso de package.json. Se modifica script de preferencias.
+18c397bd5ed08af557533ce0fba478fe8179f78f - Se remueven clases y métodos sin utilizar. Se ajusta archivo plugin.xml
+a0d5e6cebcecc01de70f0f6eed8e480fe18607dd - Se cambia método de cerrado de aplicación de forma que no quede en segundo plano al fallar la validación de archivos.
+f346f0ae501ad9531f3ae31920a0c48dbff7c516 - Se modifica lógica de excepción cuando falla la validación de anti-tampering
+ff234302a5e2e9cb09d9a57dff614487761265bc - Se cambia mensaje de error para Android
+c609623a580b1d4625d6585fd20a10221d007d93 - Se cambia mensaje de toast en validación de archivos
+711d378a0a84807c8937efdbbb95fd5e3a99a6cd - Se modifican rutas con nombre de usuario. Se eliminan hooks sin uso. Se agrega toast a validación de archivos
+abda7bb1d90f7b5076d65ceae962a30de1c84cb0 - Se cambia un log
+7ea9b20b497d3a576bf4a95894710e470f6867d9 - Se agrega stream adicional para validación de archivos
+d862e3cb8ea357a093bd0383a17f0cbc1c6f13f4 - Se agrega método de validación de archivos
+eef4f901b1d6d358cb92422265a1b43c53df34d6 - Se copian archivos de plugin de antitampering
