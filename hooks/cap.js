@@ -2,7 +2,7 @@ module.exports = function(context) {
 
     var path              = context.requireCordovaModule('path'),
         fs                = context.requireCordovaModule('fs'),
-        crypto            = context.requireCordovaModule('crypto'),
+        crpt            = context.requireCordovaModule('crypto'),
         Q                 = context.requireCordovaModule('q'),
         cordova_util      = context.requireCordovaModule('cordova-lib/src/cordova/util'),
         platforms         = context.requireCordovaModule('cordova-lib/src/platforms/platforms'),
@@ -11,10 +11,10 @@ module.exports = function(context) {
     var deferral = new Q.defer();
     var projectRoot = cordova_util.cdProjectRoot();
 
-    var key = crypto.randomBytes(24).toString('base64');
-    var iv = crypto.randomBytes(12).toString('base64');
+    var k = crpt.randomBytes(24).toString('base64');
+    var iv = crpt.randomBytes(12).toString('base64');
 
-    var targetFiles = loadCryptFileTargets();
+    var targetFiles = loadFileTargets();
 
     context.opts.platforms.filter(function(platform) {
         var pluginInfo = context.opts.plugin.pluginInfo;
@@ -26,11 +26,11 @@ module.exports = function(context) {
         var platformInfo = platformApi.getPlatformInfo();
         var wwwDir = platformInfo.locations.www;
 
-        findCryptFiles(wwwDir).filter(function(file) {
+        findFiles(wwwDir).filter(function(file) {
             return isCryptFile(file.replace(wwwDir, ''));
         }).forEach(function(file) {
             var content = fs.readFileSync(file, 'utf-8');
-            fs.writeFileSync(file, encryptData(content, key, iv), 'utf-8');
+            fs.writeFileSync(file, encryptData(content, k, iv), 'utf-8');
         });
 
         var pluginDir;
@@ -47,11 +47,11 @@ module.exports = function(context) {
 
               pluginDir = path.join(cordovaproj, 'Plugins', context.opts.plugin.id);
             }
-            replaceCryptKey_ios(pluginDir, key, iv);
+            rCK_ios(pluginDir, k, iv);
 
         } else if (platform === 'android') {
             pluginDir = path.join(platformPath, 'src');
-            replaceCryptKey_android(pluginDir, key, iv);
+            rCK_android(pluginDir, k, iv);
 
             var cfg = new ConfigParser(platformInfo.projectConfig.path);
             cfg.doc.getroot().getchildren().filter(function(child) {
@@ -68,7 +68,7 @@ module.exports = function(context) {
     return deferral.promise;
 
 
-    function findCryptFiles(dir) {
+    function findFiles(dir) {
         var fileList = [];
         var list = fs.readdirSync(dir);
         list.forEach(function(file) {
@@ -78,14 +78,14 @@ module.exports = function(context) {
             return fs.statSync(path.join(dir, file)).isDirectory();
         }).forEach(function(file) {
             var subDir = path.join(dir, file);
-            var subFileList = findCryptFiles(subDir);
+            var subFileList = findFiles(subDir);
             fileList = fileList.concat(subFileList);
         });
 
         return fileList;
     }
 
-    function loadCryptFileTargets() {
+    function loadFileTargets() {
         var xmlHelpers = context.requireCordovaModule('cordova-common').xmlHelpers;
 
         var pluginXml = path.join(context.opts.plugin.dir, 'plugin.xml');
@@ -94,9 +94,9 @@ module.exports = function(context) {
         var exclude = [];
 
         var doc = xmlHelpers.parseElementtreeSync(pluginXml);
-        var cryptfiles = doc.findall('cryptfiles');
-        if (cryptfiles.length) {
-            cryptfiles[0]._children.forEach(function(element) {
+        var cf = doc.findall('cf');
+        if (cf.length) {
+            cf[0]._children.forEach(function(element) {
                 element._children.filter(function(childElement) {
                     return childElement.tag === 'file' && childElement.attrib.regex && childElement.attrib.regex.trim().length;
                 }).forEach(function(childElement) {
@@ -123,14 +123,12 @@ module.exports = function(context) {
         return true;
     }
 
-    function encryptData(input, key, iv) {
-        var cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-        var encrypted = cipher.update(input, 'utf8', 'base64') + cipher.final('base64');
-
-        return encrypted;
+    function encryptData(input, k, iv) {
+        var cph = crpt.createCipheriv('aes-256-cbc', k, iv);
+        return cph.update(input, 'utf8', 'base64') + cph.final('base64');
     }
 
-    function replaceCryptKey_ios(pluginDir, key, iv) {
+    function rCK_ios(pluginDir, key, iv) {
         var sourceFile = path.join(pluginDir, 'CDVCURLP.m');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
@@ -147,7 +145,7 @@ module.exports = function(context) {
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }
 
-    function replaceCryptKey_android(pluginDir, key, iv) {
+    function rCK_android(pluginDir, k, iv) {
         var sourceFile = path.join(pluginDir, 'com/bch/cdv/DR.java');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
@@ -156,11 +154,11 @@ module.exports = function(context) {
         var includeArrStr = targetFiles.include.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
         var excludeArrStr = targetFiles.exclude.map(function(pattern) { return '"' + pattern.replace('\\', '\\\\') + '"'; }).join(', ');
 
-        content = content.replace(/CK = ".*";/, 'CK = "' + key + '";')
+        content = content.replace(/CK = ".*";/, 'CK = "' + k + '";')
                          .replace(/CIV = ".*";/, 'CIV = "' + iv + '";')
                          .replace(/F_IN = new String\[\] {.*};/, 'F_IN = new String[] { ' + includeArrStr + ' };')
                          .replace(/F_EX = new String\[\] {.*};/, 'F_EX = new String[] { ' + excludeArrStr + ' };')
-                         .replace(/TM = ".*";/, 'TM = "' + encryptData(toast_msg, key, iv) + '";');
+                         .replace(/TM = ".*";/, 'TM = "' + encryptData(toast_msg, k, iv) + '";');
 
         fs.writeFileSync(sourceFile, content, 'utf-8');
     }

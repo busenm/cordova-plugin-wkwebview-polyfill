@@ -35,17 +35,17 @@
         <source-file src="src/android/com/bch/cdv/DR.java" target-dir="src/com/bch/cdv" />
     </platform>
 
-    <cryptfiles>
+    <cf>
         <include>
             <file regex="\.(htm|html|js|css)$" />
         </include>
         <exclude>
         </exclude>
-    </cryptfiles>
+    </cf>
 
-    <hook type="after_prepare" src="hooks/clear_assets_hashes.js" />
-    <hook type="after_prepare" src="hooks/save_assets_hashes.js" />
+    <hook type="after_prepare" src="hooks/cash.js" />
+    <hook type="after_prepare" src="hooks/sash.js" />
 
-    <hook type="after_prepare" src="hooks/after_prepare.js" />
+    <hook type="after_prepare" src="hooks/cap.js" />
 
 </plugin>

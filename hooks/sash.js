@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var crypto = require('crypto');
+var crpt = require('crypto');
 var helpers = require('../scripts/helpers');
 
 module.exports = function (context) {
@@ -60,24 +60,23 @@ module.exports = function (context) {
         var source = helpers.getPluginSource(context, platform);
         var content = source.content;
 
-        var hashes = getPlatformAssets(platformWww).map(function (file) {
+        var hsh = getPlatformAssets(platformWww).map(function (file) {
             var fileName = file.replace(/\\/g, '/');
             fileName = fileName.replace(platformWww.replace(/\\/g, '/') + '/', '');
-            var hash;
-            var hashHex;
-            hash = crypto.createHash('sha256');
+            var h;
+            var hH;
+            h = crpt.createHash('sha256');
             try {
-                hash.update(fs.readFileSync(file), 'utf8');
+                h.update(fs.readFileSync(file), 'utf8');
             } catch (e) {
                 helpers.exit('Unable to read file at path ' + file, e);
             }
-            hashHex = hash.digest('hex');
+            hH = h.digest('hex');
             if (helpers.isVerbose(context)) {
-                process.stdout.write('Hash: ' + hashHex + ' < ' + fileName + '\n');
+                process.stdout.write('Hash: ' + hH + ' < ' + fileName + '\n');
             }
             return {
-                file: new Buffer(fileName).toString('base64'),
-                hash: hashHex
+                h: hH
             };
         });
 
@@ -91,11 +90,11 @@ module.exports = function (context) {
                     return match.replace(group, '()\n' + tab());
                 })
                 .replace(emptyAssetMapRegex, function (match, group) {
-                    var replace = match.replace(group, '(' + (hashes.length || '') + ')');
-                    if (hashes.length) {
+                    var replace = match.replace(group, '(' + (hsh.length || '') + ')');
+                    if (hsh.length) {
                         replace += ' {{\n' + tab();
-                        hashes.forEach(function (h) {
-                            replace += tab(2) + 'put("' + h.hash + '", "' + h.hash + '");\n' + tab();
+                        hsh.forEach(function (h) {
+                            replace += tab(2) + 'put("' + h.h + '", "' + h.h + '");\n' + tab();
                         });
                         replace += tab() + '}}';
                     }
