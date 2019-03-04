@@ -1,3 +1,7 @@
+71337b5a2e69ff9654edc59f36c8c13f30e9dc84 - Version bump --versión 2.1.0
+c2f3ccdb5848511c1d90367666d5392ece94aeae - Se renombran hooks
+f8b594b9ef799edf95407a65d5c65e4aced85d60 - Se comienza ofuscación manual de código
+7756dc6c28f84a4dfa9bd0c10df024777c04fab6 - Se corrige changelog
 d3d4c75d12f766975e80c0c4ad63239f9891bb78 - Cambios en changelog 2.0.0
 66520b514b7896c2341bfe7b5b35397bf5040d44 - Version bump --versión 2.0.0
 b1821a7d1d4be38f86d9219059eef1318b131a76 - Se elimina archivo LICENSE
