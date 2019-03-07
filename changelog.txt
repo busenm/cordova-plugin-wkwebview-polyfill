@@ -1,3 +1,7 @@
+01800b6959d5916c850edfc5ff574f13ab79dfa8 - Version bump --versión 2.2.0
+a1faec145b694bf2042f1ea00a7d6bcaea482822 - Se cambia repositorio en package.json
+9fccda491d036e1f6140d8bd43de96559bd5c90e - Se modifican rutas de archivos del proyecto.
+5a36274abdd9f2ab72985e682204d4489fcae78e - Cambios en changelog 2.1.0
 71337b5a2e69ff9654edc59f36c8c13f30e9dc84 - Version bump --versión 2.1.0
 c2f3ccdb5848511c1d90367666d5392ece94aeae - Se renombran hooks
 f8b594b9ef799edf95407a65d5c65e4aced85d60 - Se comienza ofuscación manual de código
