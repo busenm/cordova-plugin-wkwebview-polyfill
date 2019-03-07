@@ -2,7 +2,7 @@
 //  CDVCURLP.m
 //  CordovaLib
 //
-//  Created by bch on 2015/07/15.
+//  Created by tkyj on 2015/07/15.
 //
 //
 

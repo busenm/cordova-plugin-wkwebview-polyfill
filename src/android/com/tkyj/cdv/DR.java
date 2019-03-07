@@ -1,4 +1,4 @@
-package com.bch.cdv;
+package com.tkyj.cdv;
 
 import android.net.Uri;
 import android.util.Base64;
@@ -19,8 +19,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.bch.cdv.AI;
-import com.bch.cdv.TE;
+import com.tkyj.cdv.AI;
+import com.tkyj.cdv.TE;
 
 
 public class DR extends CordovaPlugin {

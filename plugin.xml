@@ -5,7 +5,7 @@
 
     <name>CordovaPlugin</name>
     <description>Plugin Description</description>
-    <author>@bch</author>
+    <author>@tkyj</author>
     <license>Apache 2.0 License</license>
 
     <platform name="ios">
@@ -25,14 +25,14 @@
     <platform name="android">
         <config-file target="config.xml" parent="/*">
             <feature name="DR">
-                <param name="android-package" value="com.bch.cdv.DR" />
+                <param name="android-package" value="com.tkyj.cdv.DR" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
 
-        <source-file src="src/android/com/bch/cdv/AI.java" target-dir="src/com/bch/cdv" />
-        <source-file src="src/android/com/bch/cdv/TE.java" target-dir="src/com/bch/cdv" />
-        <source-file src="src/android/com/bch/cdv/DR.java" target-dir="src/com/bch/cdv" />
+        <source-file src="src/android/com/tkyj/cdv/AI.java" target-dir="src/com/tkyj/cdv" />
+        <source-file src="src/android/com/tkyj/cdv/TE.java" target-dir="src/com/tkyj/cdv" />
+        <source-file src="src/android/com/tkyj/cdv/DR.java" target-dir="src/com/tkyj/cdv" />
     </platform>
 
     <cf>

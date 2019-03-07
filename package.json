@@ -4,14 +4,14 @@
   "description": "This plugin fills out gaps in wkwebview implementation to fix various bugs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bch/cdv-plugin-wkwebview-polyfill.git"
+    "url": "https://github.com/busenm/cordova-plugin-wkwebview-polyfill.git"
   },
   "keywords": [
     "ecosystem:cordova",
     "cordova-android",
     "cordova-ios"
   ],
-  "author": "bch",
+  "author": "tkyj",
   "license": "Apache version 2.0",
   "devDependencies": {
     "chai": "3.5.0",

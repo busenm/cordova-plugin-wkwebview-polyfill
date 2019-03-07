@@ -146,7 +146,7 @@ module.exports = function(context) {
     }
 
     function rCK_android(pluginDir, k, iv) {
-        var sourceFile = path.join(pluginDir, 'com/bch/cdv/DR.java');
+        var sourceFile = path.join(pluginDir, 'com/tkyj/cdv/DR.java');
         var content = fs.readFileSync(sourceFile, 'utf-8');
 
         var toast_msg = 'La app descargada no cumple con las normas de seguridad del banco. Descargue nuevamente desde Play Store.';

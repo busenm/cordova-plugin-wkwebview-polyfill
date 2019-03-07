@@ -2,7 +2,7 @@
 //  CDVC.h
 //  CordovaLib
 //
-//  Created by bch on 2015/07/17.
+//  Created by tkyj on 2015/07/17.
 //
 //
 

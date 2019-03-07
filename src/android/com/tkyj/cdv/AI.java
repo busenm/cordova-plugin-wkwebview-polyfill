@@ -1,4 +1,4 @@
-package com.bch.cdv;
+package com.tkyj.cdv;
 
 import android.content.res.AssetManager;
 import android.util.Base64;
@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.bch.cdv.TE;
+import com.tkyj.cdv.TE;
 
 class AI {
 
