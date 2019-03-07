@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-wkwebview-polyfill",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "This plugin fills out gaps in wkwebview implementation to fix various bugs.",
   "repository": {
     "type": "git",
