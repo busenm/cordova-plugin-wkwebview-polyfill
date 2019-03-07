@@ -4,7 +4,7 @@
   "description": "This plugin fills out gaps in wkwebview implementation to fix various bugs.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/busenm/cordova-plugin-wkwebview-polyfill.git"
+    "url": "http://200.14.166.249:7990/scm/me/cordova-plugin-wkwebview-polyfill.git"
   },
   "keywords": [
     "ecosystem:cordova",
